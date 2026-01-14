@@ -18,6 +18,10 @@ test('get started link', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
 
+test( 'URL', async({ page }) => {
+  console.log('URL:', process.env.URL);
+});
+
 test( 'search', async({ page }) => {
   await page.goto('https://www.mercadolibre.com.co/');
 
