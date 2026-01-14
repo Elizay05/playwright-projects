@@ -2,10 +2,16 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from './pageobjects/LoginPage';
 
 test ('navigate', async ({ page }) => {
+    if (!process.env.URL) {
+        throw new Error('URL environment variable is not defined');
+    }
     await page.goto(process.env.URL)
 })
 
 test ('shopping cart', async ({ page }, testInfo) => {
+    if (!process.env.URL) {
+        throw new Error('URL environment variable is not defined');
+    }
     await page.goto(process.env.URL)
 
     const loginPage = new LoginPage(page)

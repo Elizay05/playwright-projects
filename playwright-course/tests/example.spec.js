@@ -23,6 +23,8 @@ test( 'URL', async({ page }) => {
 });
 
 test( 'search', async({ page }) => {
+  test.skip(!!process.env.CI, 'Mercado Libre blocks bots in CI');
+
   await page.goto('https://www.mercadolibre.com.co/');
 
   await page.locator('input[id = \'cb1-edit\']').fill('Iphone')
@@ -40,6 +42,8 @@ test( 'search', async({ page }) => {
 });
 
 test('getByRole', async ({ page }) => {
+  test.skip(!!process.env.CI, 'Mercado Libre blocks bots in CI');
+
   await page.goto('https://www.mercadolibre.com.co/')
 
   await page.getByRole('link', {name: 'Mis compras', exact: true}).click()
