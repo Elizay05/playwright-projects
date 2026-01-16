@@ -1,0 +1,39 @@
+pipeline {
+   agent {
+      docker {
+         image 'mcr.microsoft.com/playwright:v1.57.0-noble'
+         reuseNode true
+      }
+   }
+
+   environment {
+      BASE_URL = 'https://www.saucedemo.com'
+   }
+
+   stages {
+      stage('e2e-tests') {
+         steps {
+            dir('playwright-course') {
+               sh '''
+                 export URL=$BASE_URL
+                 npm ci
+                 npx playwright test
+               '''
+            }
+         }
+      }
+   }
+
+   post {
+      always {
+        publishHTML([
+          reportName: 'Playwright Report',
+          reportDir: 'playwright-course/playwright-report',
+          reportFiles: 'index.html',
+          keepAll: true,
+          alwaysLinkToLastBuild: true,
+          allowMissing: false
+        ])
+      }
+   }
+}
