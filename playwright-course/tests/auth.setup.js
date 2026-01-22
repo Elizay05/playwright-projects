@@ -4,7 +4,7 @@ import { LoginPage } from './pageobjects/LoginPage';
 const authFile = 'playwright/.auth/user.json';
 
 setup("authenticate", async ({ page }) => {
-    await page.goto(process.env.URL)
+    await page.goto(process.env.BASE_URL)
     
     const loginPage = new LoginPage(page)
     await loginPage.loginWithCredentials('standard_user', 'secret_sauce')

@@ -11,7 +11,7 @@ test ('interceptor abort', async ({ page }) => {
         router => router.abort()
     )
 
-    await page.goto(process.env.URL)
+    await page.goto(process.env.BASE_URL)
 
     const loginPage = new LoginPage(page)
     await loginPage.loginWithCredentials('standard_user', 'secret_sauce')

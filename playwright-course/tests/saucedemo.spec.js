@@ -2,17 +2,17 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from './pageobjects/LoginPage';
 
 test ('navigate', async ({ page }) => {
-    if (!process.env.URL) {
-        throw new Error('URL environment variable is not defined');
+    if (!process.env.BASE_URL) {
+        throw new Error('BASE_URL environment variable is not defined');
     }
-    await page.goto(process.env.URL)
+    await page.goto(process.env.BASE_URL)
 })
 
 test ('shopping cart', async ({ page }, testInfo) => {
-    if (!process.env.URL) {
-        throw new Error('URL environment variable is not defined');
+    if (!process.env.BASE_URL) {
+        throw new Error('BASE_URL environment variable is not defined');
     }
-    await page.goto(process.env.URL)
+    await page.goto(process.env.BASE_URL)
 
     const loginPage = new LoginPage(page)
     await loginPage.loginWithCredentials('standard_user', 'secret_sauce')
