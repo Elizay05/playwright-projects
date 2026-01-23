@@ -1,13 +1,12 @@
-import { test } from '@playwright/test';
-import { LoginPage } from '../../pageobjects/pages/LoginPage';
-import { InventoryPage } from '../../pageobjects/pages/InventoryPage';
-import { USERS } from '../../test-data/users';
+import { test, expect } from '../../fixtures/test-fixtures';
 
-test ('User can login successfully', async ({ page }) => {
-    const loginPage = new LoginPage(page)
-    const inventoryPage = new InventoryPage(page)
-
+test('User can login successfully', async ({ loginPage, inventoryPage }) => {
     await loginPage.navigate('/');
-    await loginPage.login(USERS.STANDARD.username, USERS.STANDARD.password);
+    await loginPage.login('standard_user', 'secret_sauce');
+    await inventoryPage.assertPageIsVisible();
+});
+
+test('Validate auth is working via storage state', async ({ inventoryPage }) => {
+    await inventoryPage.navigate('/inventory.html');
     await inventoryPage.assertPageIsVisible();
 });
