@@ -1,11 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
+import { LoginPage } from '../../pageobjects/pages/LoginPage';
+import { InventoryPage } from '../../pageobjects/pages/InventoryPage';
+import { USERS } from '../../test-data/users';
 
-test ('Successful Login', async ({ page }) => {
-    await page.goto('/');
+test ('User can login successfully', async ({ page }) => {
+    const loginPage = new LoginPage(page)
+    const inventoryPage = new InventoryPage(page)
 
-    await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
-    await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
-    await page.getByRole('button', { name: 'Login' }).click();
-
-    await expect(page.locator('.shopping_cart_link')).toBeVisible();
+    await loginPage.navigate('/');
+    await loginPage.login(USERS.STANDARD.username, USERS.STANDARD.password);
+    await inventoryPage.assertPageIsVisible();
 });
