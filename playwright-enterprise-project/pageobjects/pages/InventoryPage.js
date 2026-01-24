@@ -1,13 +1,18 @@
+import { PATHS } from "../../test-data/paths";
 import { BasePage } from "../base/BasePage";
-import { expect } from "@playwright/test";
 
 export class InventoryPage extends BasePage{
     constructor(page){
         super(page);
+        this.path = PATHS.INVENTORY;
         this.shoppingCartIcon = page.locator('.shopping_cart_link');
     }
 
-    async assertPageIsVisible(){
-        await expect(this.shoppingCartIcon).toBeVisible();
+    async open () {
+        await this.navigate(this.path);
+    }
+
+    async isVisible(){
+        return await this.shoppingCartIcon.isVisible();
     }
 }
