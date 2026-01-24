@@ -9,14 +9,14 @@
 - Storage State authentication
 
 ## 📂 Project Structure
-tests/
-- e2e/
-- api/
 pageobjects/
 test-data/
 fixtures/
 auth/
 utils/
+tests/
+- e2e/
+- api/
 
 
 ## 🚀 How to run tests
