@@ -1,11 +1,12 @@
 import { PATHS } from "../../test-data/paths";
 import { BasePage } from "../base/BasePage";
+import { HeaderComponent } from "../components/HeaderComponent";
 
 export class InventoryPage extends BasePage{
     constructor(page){
         super(page);
         this.path = PATHS.INVENTORY;
-        this.shoppingCartIcon = page.locator('.shopping_cart_link');
+        this.header = new HeaderComponent(page);
     }
 
     async open () {
@@ -13,6 +14,6 @@ export class InventoryPage extends BasePage{
     }
 
     async isVisible(){
-        return await this.shoppingCartIcon.isVisible();
+        return await this.header.shoppingCartIcon.isVisible();
     }
 }
