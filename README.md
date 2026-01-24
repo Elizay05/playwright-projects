@@ -15,8 +15,8 @@ fixtures/
 auth/
 utils/
 tests/
-- e2e/
-- api/
+├── e2e/
+└── api/
 
 
 ## 🚀 How to run tests
