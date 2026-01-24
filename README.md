@@ -9,6 +9,8 @@
 - Storage State authentication
 
 ## 📂 Project Structure
+
+```text
 pageobjects/
 test-data/
 fixtures/
@@ -17,7 +19,7 @@ utils/
 tests/
 ├── e2e/
 └── api/
-
+```
 
 ## 🚀 How to run tests
 npm install
