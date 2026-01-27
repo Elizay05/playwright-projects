@@ -5,6 +5,7 @@ import { CartPage } from '../pageobjects/pages/CartPage';
 import { CheckoutInfoPage } from '../pageobjects/pages/CheckoutInfoPage';
 import { CheckoutOverviewPage } from '../pageobjects/pages/CheckoutOverviewPage';
 import { CheckoutCompletePage } from '../pageobjects/pages/CheckoutCompletePage';
+import { InventoryItemPage } from '../pageobjects/pages/InventoryItemPage';
 
 export const test = base.extend({
     loginPage: async ({ page }, use) => {
@@ -35,6 +36,11 @@ export const test = base.extend({
     checkoutCompletePage: async ({ page }, use) => {
         const checkoutCompletePage = new CheckoutCompletePage(page);
         await use(checkoutCompletePage);
+    },
+
+    inventoryItemPage: async ({ page }, use) => {
+        const inventoryItemPage = new InventoryItemPage(page);
+        await use(inventoryItemPage);
     }
 });
 

@@ -25,4 +25,9 @@ export class LoginPage extends BasePage{
     async getErrorMessage() {
         return await this.page.locator('[data-test="error"]').textContent();
     }
+
+    async isVisible(){
+        await this.loginButton.waitFor({ state: 'visible' });
+        return true;
+    }
 }

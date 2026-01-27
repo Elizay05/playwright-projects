@@ -36,6 +36,14 @@ export class InventoryPage extends BasePage{
     async getProductPrices() {
         const prices = await this.productPrices.allTextContents();
         return prices.map(price => Number(price.replace('$', '')));
+    }   
+
+    async openProduct(productName) {
+        const productLink = this.page
+            .locator('.inventory_item_name')
+            .filter({ hasText: productName });
+
+        await productLink.first().click();
     }
 
     async addProduct(productName) {
