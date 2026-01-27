@@ -8,14 +8,12 @@ export class BasePage{
         }
     }
 
-    async navigate(path = ''){
-        await this.page.goto(`${this.baseUrl}${path}`);
+    async navigate(path = '') {
+        await this.page.goto(`${this.baseUrl}${path}`, {
+            waitUntil: 'domcontentloaded',
+        });
     }
 
-    async waitForPageLoad() {
-        await this.page.waitForLoadState('networkidle');
-    }
-    
     async getTitle(){
         return await this.page.title();
     }

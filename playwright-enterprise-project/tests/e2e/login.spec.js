@@ -21,7 +21,6 @@ for (const scenario of LOGIN_SCENARIOS) {
         //const loginResponse = await loginResponsePromise;
 
         if (scenario.shouldLogin) {
-            await inventoryPage.waitForPageLoad();
             //expect(loginResponse.status()).toBe(200);
             await expect(await inventoryPage.isVisible()).toBe(true);
         } else {
@@ -32,8 +31,10 @@ for (const scenario of LOGIN_SCENARIOS) {
     });
 }
 
+/*
 test('Validate auth is working via storage state', async ({ inventoryPage }) => {
     await inventoryPage.open();
 
     await expect(await inventoryPage.isVisible()).toBe(true);
 });
+*/

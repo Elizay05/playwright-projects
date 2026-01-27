@@ -7,13 +7,55 @@ export class InventoryPage extends BasePage{
         super(page);
         this.path = PATHS.INVENTORY;
         this.header = new HeaderComponent(page);
+
+        this.products = page.locator('.inventory_item');
+        this.productNames = page.locator('.inventory_item_name');
+        this.productPrices = page.locator('.inventory_item_price');
+        this.sortDropdown = page.locator('.product_sort_container');
     }
 
     async open () {
         await this.navigate(this.path);
+        await this.products.first().waitFor({ state: 'visible' });
     }
 
     async isVisible(){
-        return await this.header.shoppingCartIcon.isVisible();
+        await this.sortDropdown.waitFor({ state: 'visible' });
+        return true;
+    }
+
+    async getProductsCount() {
+        await this.products.first().waitFor({ state: 'visible' });
+        return await this.products.count();
+    }
+
+    async getProductNames() {
+        return await this.productNames.allTextContents();
+    }
+
+    async getProductPrices() {
+        const prices = await this.productPrices.allTextContents();
+        return prices.map(price => Number(price.replace('$', '')));
+    }
+
+    async addProduct(productName) {
+        const product = this.page
+            .locator('.inventory_item')
+            .filter({ hasText: productName });
+
+        await product.locator('button').click();
+    }
+
+    async removeProduct(productName) {
+        const product = this.page
+            .locator('.inventory_item')
+            .filter({ hasText: productName });
+
+        await product.locator('button').click();
+    }
+
+    async sortBy(option) {
+        await this.sortDropdown.waitFor({ state: 'visible' });
+        await this.sortDropdown.selectOption(option);
     }
 }

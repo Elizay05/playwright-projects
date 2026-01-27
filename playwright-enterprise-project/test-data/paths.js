@@ -1,4 +1,5 @@
 export const PATHS = {
     LOGIN: '/',
-    INVENTORY: '/inventory.html'
+    INVENTORY: '/inventory.html',
+    CART: '/cart.html',
 };

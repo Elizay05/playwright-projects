@@ -13,6 +13,7 @@ export class LoginPage extends BasePage{
 
     async open(){
         await this.navigate(this.path);
+        await this.usernameInput.waitFor({ state: 'visible' });
     }
 
     async login(username, password){
