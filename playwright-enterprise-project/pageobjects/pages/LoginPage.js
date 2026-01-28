@@ -16,10 +16,14 @@ export class LoginPage extends BasePage{
         await this.usernameInput.waitFor({ state: 'visible' });
     }
 
+    async submit() {
+        await this.loginButton.click();
+    }
+
     async login(username, password){
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
-        await this.loginButton.click();
+        await this.submit();
     }
 
     async getErrorMessage() {
@@ -27,7 +31,6 @@ export class LoginPage extends BasePage{
     }
 
     async isVisible(){
-        await this.loginButton.waitFor({ state: 'visible' });
-        return true;
+        return await this.loginButton.isVisible();
     }
 }

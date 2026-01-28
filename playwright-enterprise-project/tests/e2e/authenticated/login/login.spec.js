@@ -1,5 +1,5 @@
-import { test, expect } from '../../fixtures/test-fixtures';
-import { LOGIN_SCENARIOS } from '../../test-data/loginScenarios';
+import { test, expect } from '../../../../fixtures/test-fixtures';
+import { LOGIN_SCENARIOS } from '../../../../test-data/loginScenarios';
 
 for (const scenario of LOGIN_SCENARIOS) {
     test(scenario.title, async ({ loginPage, inventoryPage }) => {

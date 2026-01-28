@@ -18,12 +18,11 @@ export class CartPage extends BasePage {
 
     async open() {
         await this.navigate(this.path);
-        await this.cartItems.first().waitFor({ state: 'visible' });
+        await this.cartItems.first().isVisible();
     }
 
     async isVisible() {
-        await this.checkoutButton.waitFor({ state: 'visible' });
-        return true;
+        await this.checkoutButton.isVisible();
     }
     
     async getItemsCount() {

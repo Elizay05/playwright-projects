@@ -20,8 +20,7 @@ export class InventoryPage extends BasePage{
     }
 
     async isVisible(){
-        await this.sortDropdown.waitFor({ state: 'visible' });
-        return true;
+        return await this.sortDropdown.isVisible();
     }
 
     async getProductsCount() {

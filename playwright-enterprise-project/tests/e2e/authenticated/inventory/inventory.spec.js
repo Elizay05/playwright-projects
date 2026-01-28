@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/test-fixtures';
+import { test, expect } from '../../../../fixtures/test-fixtures';
 
 test('Inventory loads with products', async ({ inventoryPage }) => {
     await inventoryPage.open();

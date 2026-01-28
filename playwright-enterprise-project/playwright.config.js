@@ -23,23 +23,63 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    storageState: 'auth/storageState.json',
   },
 
   projects: [
+    // ============================
+    // AUTHENTICATED
+    // ============================
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'authenticated-chromium',
+      testDir: './tests/e2e/authenticated',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'auth/storageState.json',
+      },
+    },
+    {
+      name: 'authenticated-firefox',
+      testDir: './tests/e2e/authenticated',
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'auth/storageState.json',
+      },
+    },
+    {
+      name: 'authenticated-webkit',
+      testDir: './tests/e2e/authenticated',
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: 'auth/storageState.json',
+      },
     },
 
+    // ============================
+    // UNAUTHENTICATED
+    // ============================
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'unauthenticated-chromium',
+      testDir: './tests/e2e/unauthenticated',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: undefined,
+      },
     },
-
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: 'unauthenticated-firefox',
+      testDir: './tests/e2e/unauthenticated',
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: undefined,
+      },
+    },
+    {
+      name: 'unauthenticated-webkit',
+      testDir: './tests/e2e/unauthenticated',
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: undefined,
+      },
     },
   ],
 });
