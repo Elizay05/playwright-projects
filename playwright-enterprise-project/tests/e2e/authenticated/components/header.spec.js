@@ -1,4 +1,5 @@
-import { test, expect } from '../../fixtures/test-fixtures';
+import { test, expect } from '../../../../fixtures/test-fixtures';
+import { PRODUCTS } from '../../../../test-data/products';
 
 test('User can open header menu', async ({ inventoryPage }) => {
     await inventoryPage.open();
@@ -18,7 +19,7 @@ test('User can logout from header menu', async ({ inventoryPage, loginPage }) =>
 
 test('User can navigate to inventory using All Items', async ({ inventoryPage, cartPage }) => {
     await inventoryPage.open();
-    await inventoryPage.addProduct('Sauce Labs Backpack');
+    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
 
     await inventoryPage.header.openCart();
     await cartPage.isVisible();
@@ -48,7 +49,7 @@ test('User can open cart from header', async ({ inventoryPage, cartPage }) => {
 
 test('Cart badge persists across pages', async ({ inventoryPage, cartPage }) => {
     await inventoryPage.open();
-    await inventoryPage.addProduct('Sauce Labs Backpack');
+    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
 
     const badgeBefore = await inventoryPage.header.getCartBadgeCount();
     expect(badgeBefore).toBe(1);
@@ -62,8 +63,8 @@ test('Cart badge persists across pages', async ({ inventoryPage, cartPage }) => 
 
 test('Cart badge shows correct number of items', async ({ inventoryPage }) => {
     await inventoryPage.open();
-    await inventoryPage.addProduct('Sauce Labs Backpack');
-    await inventoryPage.addProduct('Sauce Labs Bike Light');
+    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
+    await inventoryPage.addProduct(PRODUCTS.BOLT_TSHIRT.name);
 
     const badgeCount = await inventoryPage.header.getCartBadgeCount();
     expect(badgeCount).toBe(2);

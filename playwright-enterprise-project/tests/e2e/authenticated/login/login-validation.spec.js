@@ -1,25 +1,27 @@
 import { test, expect } from '../../../../fixtures/test-fixtures';
+import { LOGIN_ERRORS } from '../../../../test-data/errors';
+import { INVALID_USER, USERS } from '../../../../test-data/users';
 
 test('Login fails when username is empty', async ({ loginPage }) => {
     await loginPage.open();
-    await loginPage.login('', 'secret_sauce');
+    await loginPage.login('', USERS.STANDARD.password);
 
     const error = await loginPage.getErrorMessage();
-    expect(error).toContain('Username is required');
+    expect(error).toContain(LOGIN_ERRORS.username_required);
 });
 
 test('Login fails when password is empty', async ({ loginPage }) => {
     await loginPage.open();
-    await loginPage.login('standard_user', '');
+    await loginPage.login(USERS.STANDARD.username, '');
 
     const error = await loginPage.getErrorMessage();
-    expect(error).toContain('Password is required');
+    expect(error).toContain(LOGIN_ERRORS.password_required);
 });
 
 test('Login fails with invalid credentials', async ({ loginPage }) => {
     await loginPage.open();
-    await loginPage.login('invalid_user', 'wrong_password');
+    await loginPage.login(INVALID_USER.username, INVALID_USER.password);
 
     const error = await loginPage.getErrorMessage();
-    expect(error).toContain('Username and password do not match any user in this service');
+    expect(error).toContain(LOGIN_ERRORS.invalid_credentials);
 });

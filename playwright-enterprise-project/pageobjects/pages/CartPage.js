@@ -22,7 +22,7 @@ export class CartPage extends BasePage {
     }
 
     async isVisible() {
-        await this.checkoutButton.isVisible();
+        return await this.checkoutButton.isVisible();
     }
     
     async getItemsCount() {

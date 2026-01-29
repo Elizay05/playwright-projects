@@ -1,8 +1,10 @@
-import { test, expect } from '../../fixtures/test-fixtures';
+import { test, expect } from '../../../../fixtures/test-fixtures';
+import { CHECKOUT_INFO_FORM } from '../../../../test-data/forms';
+import { PRODUCTS } from '../../../../test-data/products';
 
 test('Checkout overview shows correct total', async ({ inventoryPage, cartPage, checkoutInfoPage, checkoutOverviewPage, checkoutCompletePage }) => {
     await inventoryPage.open();
-    await inventoryPage.addProduct('Sauce Labs Backpack');
+    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
     await inventoryPage.header.openCart();
 
     await cartPage.checkout();
@@ -10,9 +12,9 @@ test('Checkout overview shows correct total', async ({ inventoryPage, cartPage, 
     await checkoutInfoPage.isVisible();
 
     await checkoutInfoPage.fillForm({
-        firstName: 'Sayi',
-        lastName: 'QA',
-        postalCode: '050001'
+        firstName: CHECKOUT_INFO_FORM.firstName,
+        lastName: CHECKOUT_INFO_FORM.lastName,
+        postalCode: CHECKOUT_INFO_FORM.postalCode
     });
 
     await checkoutInfoPage.continue();
@@ -34,7 +36,7 @@ test('Checkout overview shows correct total', async ({ inventoryPage, cartPage, 
 
 test('User can cancel checkout from overview page', async ({ inventoryPage, cartPage, checkoutInfoPage, checkoutOverviewPage }) => {
     await inventoryPage.open();
-    await inventoryPage.addProduct('Sauce Labs Backpack');
+    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
     await inventoryPage.header.openCart();
 
     await cartPage.checkout();
@@ -42,9 +44,9 @@ test('User can cancel checkout from overview page', async ({ inventoryPage, cart
     await checkoutInfoPage.isVisible();
 
     await checkoutInfoPage.fillForm({
-        firstName: 'Sayi',
-        lastName: 'QA',
-        postalCode: '050001'
+        firstName: CHECKOUT_INFO_FORM.firstName,
+        lastName: CHECKOUT_INFO_FORM.lastName,
+        postalCode: CHECKOUT_INFO_FORM.postalCode
     });
 
     await checkoutInfoPage.continue();

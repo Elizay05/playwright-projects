@@ -30,3 +30,8 @@ export const USERS = {
         role: 'visual'
     }
 };
+
+export const INVALID_USER = {
+    username: 'invalid_user',
+    password: 'wrong_password'
+};
