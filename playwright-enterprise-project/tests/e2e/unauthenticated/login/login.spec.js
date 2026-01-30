@@ -1,8 +1,12 @@
 import { test, expect } from '../../../../fixtures/test-fixtures';
 import { LOGIN_SCENARIOS } from '../../../../test-data/loginScenarios';
+import { TAGS } from '../../../../test-data/tags';
 
-for (const scenario of LOGIN_SCENARIOS) {
-    test(scenario.title, async ({ loginPage, inventoryPage }) => {
+test.describe(
+  `${TAGS.LOGIN} Login scenarios`,
+  () => {
+    for (const scenario of LOGIN_SCENARIOS) {
+    test(`${TAGS.AUTH} ${TAGS.SMOKE} ${scenario.title}`, async ({ loginPage, inventoryPage }) => {
         await loginPage.open();
 
         // This is intentionaly commented because https://sacedemo.com does not have a real backend API to test against.
@@ -29,12 +33,6 @@ for (const scenario of LOGIN_SCENARIOS) {
             await expect(errorMessage).toContain(scenario.errorMessage);
         }
     });
-}
-
-/*
-test('Validate auth is working via storage state', async ({ inventoryPage }) => {
-    await inventoryPage.open();
-
-    await expect(await inventoryPage.isVisible()).toBe(true);
-});
-*/
+    }
+  }
+);

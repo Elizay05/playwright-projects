@@ -8,40 +8,44 @@ import { CheckoutCompletePage } from '../pageobjects/pages/CheckoutCompletePage'
 import { InventoryItemPage } from '../pageobjects/pages/InventoryItemPage';
 
 export const test = base.extend({
-    loginPage: async ({ page }, use) => {
-        const loginPage = new LoginPage(page);
-        await use(loginPage);
-    },
+  user: [undefined, { option: true }],
 
-    inventoryPage: async ({ page }, use) => {
-        const inventoryPage = new InventoryPage(page);
-        await use(inventoryPage);
-    },
-
-    cartPage: async ({ page }, use) => {
-        const cartPage = new CartPage(page);
-        await use(cartPage);
-    },
-
-    checkoutInfoPage: async ({ page }, use) => {
-        const checkoutInfoPage = new CheckoutInfoPage(page);
-        await use(checkoutInfoPage);
-    },
-
-    checkoutOverviewPage: async ({ page }, use) => {
-        const checkoutOverviewPage = new CheckoutOverviewPage(page);
-        await use(checkoutOverviewPage);
-    },
-
-    checkoutCompletePage: async ({ page }, use) => {
-        const checkoutCompletePage = new CheckoutCompletePage(page);
-        await use(checkoutCompletePage);
-    },
-
-    inventoryItemPage: async ({ page }, use) => {
-        const inventoryItemPage = new InventoryItemPage(page);
-        await use(inventoryItemPage);
+  page: async ({ page, user }, use) => {
+    if (user) {
+      const loginPage = new LoginPage(page);
+      await loginPage.open();
+      await loginPage.login(user.username, user.password);
     }
+    await use(page);
+  },
+
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+
+  inventoryPage: async ({ page }, use) => {
+    await use(new InventoryPage(page));
+  },
+
+  inventoryItemPage: async ({ page }, use) => {
+    await use(new InventoryItemPage(page));
+  },
+
+  cartPage: async ({ page }, use) => {
+    await use(new CartPage(page));
+  },
+
+  checkoutInfoPage: async ({ page }, use) => {
+    await use(new CheckoutInfoPage(page));
+  },
+
+  checkoutOverviewPage: async ({ page }, use) => {
+    await use(new CheckoutOverviewPage(page));
+  },
+
+  checkoutCompletePage: async ({ page }, use) => {
+    await use(new CheckoutCompletePage(page));
+  },
 });
 
 export { expect } from '@playwright/test';

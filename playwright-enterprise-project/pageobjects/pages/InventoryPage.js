@@ -11,6 +11,7 @@ export class InventoryPage extends BasePage{
         this.products = page.locator('.inventory_item');
         this.productNames = page.locator('.inventory_item_name');
         this.productPrices = page.locator('.inventory_item_price');
+        this.productImages = page.locator('.inventory_item_img img');
         this.sortDropdown = page.locator('.product_sort_container');
     }
 
@@ -37,6 +38,12 @@ export class InventoryPage extends BasePage{
         return prices.map(price => Number(price.replace('$', '')));
     }   
 
+    async getProductImages() {
+        return await this.productImages.evaluateAll(images =>
+            images.map(img => img.getAttribute('src'))
+        );
+    }
+    
     async openProduct(productName) {
         const productLink = this.page
             .locator('.inventory_item_name')

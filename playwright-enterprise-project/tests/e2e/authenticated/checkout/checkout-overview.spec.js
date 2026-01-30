@@ -1,58 +1,43 @@
 import { test, expect } from '../../../../fixtures/test-fixtures';
 import { CHECKOUT_INFO_FORM } from '../../../../test-data/forms';
 import { PRODUCTS } from '../../../../test-data/products';
+import { TAGS } from '../../../../test-data/tags';
 
-test('Checkout overview shows correct total', async ({ inventoryPage, cartPage, checkoutInfoPage, checkoutOverviewPage, checkoutCompletePage }) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
-    await inventoryPage.header.openCart();
+test.describe(`${TAGS.CHECKOUT} Checkout Overview Page Tests`, () => {
 
-    await cartPage.checkout();
-
-    await checkoutInfoPage.isVisible();
-
-    await checkoutInfoPage.fillForm({
-        firstName: CHECKOUT_INFO_FORM.firstName,
-        lastName: CHECKOUT_INFO_FORM.lastName,
-        postalCode: CHECKOUT_INFO_FORM.postalCode
+    test.beforeEach(async ({ inventoryPage, cartPage, checkoutInfoPage, checkoutOverviewPage }) => {
+        await inventoryPage.open();
+        await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
+        await inventoryPage.header.openCart();
+        await cartPage.checkout();
+        await checkoutInfoPage.isVisible();
+        await checkoutInfoPage.fillForm({
+            firstName: CHECKOUT_INFO_FORM.firstName,
+            lastName: CHECKOUT_INFO_FORM.lastName,
+            postalCode: CHECKOUT_INFO_FORM.postalCode
+        });
+        await checkoutInfoPage.continue();
+        await checkoutOverviewPage.isVisible();
     });
 
-    await checkoutInfoPage.continue();
+    test(`${TAGS.SMOKE} Checkout overview shows correct total`, async ({ checkoutOverviewPage, checkoutCompletePage }) => {
+        const prices = await checkoutOverviewPage.getItemPrices();
+        const tax = await checkoutOverviewPage.getTax();
+        const total = await checkoutOverviewPage.getTotal();
 
-    await checkoutOverviewPage.isVisible();
-    const prices = await checkoutOverviewPage.getItemPrices();
-    const tax = await checkoutOverviewPage.getTax();
-    const total = await checkoutOverviewPage.getTotal();
+        const expectedTotal =
+            prices.reduce((sum, p) => sum + p, 0) + tax;
 
-    const expectedTotal =
-        prices.reduce((sum, p) => sum + p, 0) + tax;
+        expect(total).toBeCloseTo(expectedTotal, 2);
 
-    expect(total).toBeCloseTo(expectedTotal, 2);
+        await checkoutOverviewPage.finish();
 
-    await checkoutOverviewPage.finish();
-
-    await checkoutCompletePage.isVisible();
-});
-
-test('User can cancel checkout from overview page', async ({ inventoryPage, cartPage, checkoutInfoPage, checkoutOverviewPage }) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
-    await inventoryPage.header.openCart();
-
-    await cartPage.checkout();
-
-    await checkoutInfoPage.isVisible();
-
-    await checkoutInfoPage.fillForm({
-        firstName: CHECKOUT_INFO_FORM.firstName,
-        lastName: CHECKOUT_INFO_FORM.lastName,
-        postalCode: CHECKOUT_INFO_FORM.postalCode
+        await checkoutCompletePage.isVisible();
     });
 
-    await checkoutInfoPage.continue();
+    test(`${TAGS.REGRESSION} User can cancel checkout from overview page`, async ({ inventoryPage, checkoutOverviewPage }) => {
+        await checkoutOverviewPage.cancel();
 
-    await checkoutOverviewPage.isVisible();
-    await checkoutOverviewPage.cancel();
-
-    await expect(await inventoryPage.isVisible()).toBe(true);
+        await expect(await inventoryPage.isVisible()).toBe(true);
+    });
 });

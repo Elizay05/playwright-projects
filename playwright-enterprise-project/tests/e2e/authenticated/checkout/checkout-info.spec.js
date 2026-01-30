@@ -1,36 +1,31 @@
 import { test, expect } from '../../../../fixtures/test-fixtures';
 import { CHECKOUT_INFO_FORM } from '../../../../test-data/forms';
 import { PRODUCTS } from '../../../../test-data/products';
+import { TAGS } from '../../../../test-data/tags';
 
-test('User can fill checkout info and continue', async ({inventoryPage, cartPage, checkoutInfoPage, checkoutOverviewPage}) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
-    await inventoryPage.header.openCart();
+test.describe(`${TAGS.CHECKOUT} Checkout Info Page Tests`, () => {
 
-    await cartPage.checkout();
+    test.beforeEach(async ({ inventoryPage, cartPage, checkoutInfoPage }) => {
+        await inventoryPage.open();
+        await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
+        await inventoryPage.header.openCart();
+        await cartPage.checkout();
 
-    await checkoutInfoPage.isVisible();
-
-    await checkoutInfoPage.fillForm({
-        firstName: CHECKOUT_INFO_FORM.firstName,
-        lastName: CHECKOUT_INFO_FORM.lastName,
-        postalCode: CHECKOUT_INFO_FORM.postalCode
+        await checkoutInfoPage.isVisible();
     });
 
-    await checkoutInfoPage.continue();
+    test(`${TAGS.SMOKE} User can fill checkout info and continue`, async ({checkoutInfoPage, checkoutOverviewPage}) => {
+        await checkoutInfoPage.fillForm({
+            firstName: CHECKOUT_INFO_FORM.firstName,
+            lastName: CHECKOUT_INFO_FORM.lastName,
+            postalCode: CHECKOUT_INFO_FORM.postalCode
+        });
+        await checkoutInfoPage.continue();
+        await expect(await checkoutOverviewPage.isVisible()).toBe(true);
+    });
 
-    await expect(await checkoutOverviewPage.isVisible()).toBe(true);
-});
-
-test('User can cancel checkout info and return to cart', async ({ inventoryPage, cartPage, checkoutInfoPage }) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
-    await inventoryPage.header.openCart();
-
-    await cartPage.checkout();
-
-    await checkoutInfoPage.isVisible();
-    await checkoutInfoPage.cancel();
-
-    await expect(await cartPage.isVisible()).toBe(true);
+    test(`${TAGS.REGRESSION} User can cancel checkout info and return to cart`, async ({ cartPage, checkoutInfoPage }) => {
+        await checkoutInfoPage.cancel();
+        await expect(await cartPage.isVisible()).toBe(true);
+    });
 });

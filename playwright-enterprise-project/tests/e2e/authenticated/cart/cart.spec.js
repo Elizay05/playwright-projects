@@ -1,53 +1,55 @@
 import { test, expect } from '../../../../fixtures/test-fixtures';
 import { PRODUCTS } from '../../../../test-data/products';
+import { TAGS } from '../../../../test-data/tags';
 
-test('Added product appears in cart', async ({ inventoryPage, cartPage }) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
+test.describe(`${TAGS.CART} Cart Page Tests`, () => {
 
-    await inventoryPage.header.openCart();
+    test.beforeEach(async ({ inventoryPage }) => {
+        await inventoryPage.open();
+    });
 
-    const count = await cartPage.getItemsCount();
-    expect(count).toBe(1);
-});
+    test(`${TAGS.SMOKE} Added product appears in cart`, async ({ inventoryPage, cartPage }) => {
+        await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
 
-test('Cart shows correct product name and price', async ({ inventoryPage, cartPage }) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
+        await inventoryPage.header.openCart();
 
-    await inventoryPage.header.openCart();
+        const count = await cartPage.getItemsCount();
+        expect(count).toBe(1);
+    });
 
-    const names = await cartPage.getItemNames();
-    const prices = await cartPage.getItemPrices();
+    test(`${TAGS.REGRESSION} Cart shows correct product name and price`, async ({ inventoryPage, cartPage }) => {
+        await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
 
-    expect(names).toContain(PRODUCTS.BACKPACK.name);
-    expect(prices.length).toBe(1);
-});
+        await inventoryPage.header.openCart();
 
-test('Cart shows empty state when no products added', async ({ cartPage }) => {
-  await cartPage.open();
+        const names = await cartPage.getItemNames();
+        const prices = await cartPage.getItemPrices();
 
-  const count = await cartPage.getItemsCount();
-  expect(count).toBe(0);
-});
+        expect(names).toContain(PRODUCTS.BACKPACK.name);
+        expect(prices.length).toBe(1);
+    });
 
-test('User can remove product from cart', async ({ inventoryPage, cartPage }) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
+    test(`${TAGS.REGRESSION} Cart shows empty state when no products added`, async ({ cartPage }) => {
+        const count = await cartPage.getItemsCount();
+        expect(count).toBe(0);
+    });
 
-    await inventoryPage.header.openCart();
-    await cartPage.removeItemByName(PRODUCTS.BACKPACK.name);
+    test(`${TAGS.REGRESSION} User can remove product from cart`, async ({ inventoryPage, cartPage }) => {
+        await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
 
-    const count = await cartPage.getItemsCount();
-    expect(count).toBe(0);
-});
+        await inventoryPage.header.openCart();
+        await cartPage.removeItemByName(PRODUCTS.BACKPACK.name);
 
-test('User can continue shopping from cart', async ({ inventoryPage, cartPage }) => {
-    await inventoryPage.open();
-    await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
+        const count = await cartPage.getItemsCount();
+        expect(count).toBe(0);
+    });
 
-    await inventoryPage.header.openCart();
-    await cartPage.continueShopping();
+    test(`${TAGS.REGRESSION} User can continue shopping from cart`, async ({ inventoryPage, cartPage }) => {
+        await inventoryPage.addProduct(PRODUCTS.BACKPACK.name);
 
-    await expect(await inventoryPage.isVisible()).toBe(true);
+        await inventoryPage.header.openCart();
+        await cartPage.continueShopping();
+
+        await expect(await inventoryPage.isVisible()).toBe(true);
+    });
 });

@@ -1,6 +1,7 @@
 import { test, expect } from '../../../../fixtures/test-fixtures';
+import { TAGS } from '../../../../test-data/tags';
 
-test('User cannot proceed to checkout with empty cart (BUG)', async ({ cartPage }) => {
+test(`${TAGS.CART} ${TAGS.BUG} User cannot proceed to checkout with empty cart (BUG)`, async ({ cartPage }) => {
   test.fail(true, 'BUG: App allows checkout with empty cart');
 
   await cartPage.open();
